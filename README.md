@@ -3,7 +3,7 @@
 > **Exercício Final Prático — Aula 10: Sistemas Multiagentes**  
 > **Programa:** MBA em Inteligência Artificial e Machine Learning — IBMEC / PCDF  
 > **Aluno:** Bruno Cesar Sampaio Ribeiro de Assis (`bcsampaio.ufmt@gmail.com`)  
-> **Documento Oficial de Entrega:** [`Aula-10-bruno-sampaio.pdf`](Aula-10-bruno-sampaio.pdf) *(disponível integralmente neste repositório)*
+> **Documento Oficial de Entrega:** [`ENTREGA-FINAL-bruno-sampaio.pdf`](ENTREGA-FINAL-bruno-sampaio.pdf) *(disponível integralmente neste repositório)*
 
 ---
 
@@ -25,6 +25,7 @@
   - [Etapa 10: Observabilidade, Latência e Contabilidade de Tokens](#etapa-10-observabilidade-latência-e-contabilidade-de-tokens)
   - [Etapa 11: Homologação Completa dos 12 Casos de Teste](#etapa-11-homologação-completa-dos-12-casos-de-teste)
 - [5. Resultados Encontrados](#5-resultados-encontrados)
+  - [Resumo dos Resultados Alcançados](#-resumo-dos-resultados-alcançados)
   - [Tabela Comparativa dos 12 Casos (C1 a C12)](#tabela-comparativa-dos-12-casos-c1-a-c12)
   - [Métricas de Execução e Observabilidade](#métricas-de-execução-e-observabilidade)
   - [Resultados dos Itens Opcionais e Bônus](#resultados-dos-itens-opcionais-e-bônus)
@@ -198,6 +199,28 @@ O desenvolvimento seguiu uma construção progressiva e incremental dividida em 
 
 ## 5. Resultados Encontrados
 
+### 🏆 Resumo dos Resultados Alcançados
+
+O desenvolvimento e os testes do sistema demonstraram que a arquitetura multiagente com governança e orquestração por grafos atingiu **todos os objetivos técnicos, de segurança e regulatórios estipulados**:
+
+1. **Aprovação Integral na Suíte de Homologação (100% Concluído):**
+   - Todas as **12 etapas (0 a 11)** foram testadas e validadas com status `✅ completa` pelo script oficial `conferir.py`, atingindo o marco máximo com excelência.
+2. **Conformidade Estrita nos 12 Cenários de Teste (C1 a C12):**
+   - **Pedidos Regulares (C1, C8):** Deferimento célere com redação automática de despacho fundamentado e protocolo criptográfico SHA-256 (`ae788d33`), com verificação comprovada de **idempotência** (o reenvio no C8 detectou duplicação e preservou o estado sem inconsistências).
+   - **Proteção LGPD & Segurança de Entrada (C3, C4, C7):** Interrupção em ~0 ms de requisições contendo CPF ou CID de saúde (regra N9), bloqueio de pedidos fora de escopo (compra de notebooks) e impedimento de tentativas de autoaprovação (N8).
+   - **Indeferimentos Objetivos Automatizados (C6, C12):** Aplicação estrita de regras de negócio em código Python determinístico — C6 indeferido por conflito de escala (sobreposição de 8 dias violando o teto de 30% da regra N5, com proposta automática de período alternativo) e C12 indeferido por início em sexta-feira/véspera de feriado (regra N3).
+   - **Human-in-the-Loop Real e Persistente (C2, C11):** Pausa assíncrona não-bloqueante via `interrupt()` e `SqliteSaver`, resistindo a reinicializações de processo e aguardando a decisão da chefia imediata (deferido pelas chefias `1010` e `1011`, com cálculo pecuniário e diárias em moeda estrangeira).
+3. **Implementação Integral dos 3 Bônus Opcionais:**
+   - **🆕 Bônus A (Votação Concorrente Fan-out):** Redução da latência de extração de **6.8 s** para **2.3 s** com `asyncio.gather`, acionando `pedir_dados` em caso de divergência em datas imprecisas (C9).
+   - **🆕 Bônus B (Governança por RunHooks):** Bloqueio dinâmico no cliente antes da chamada à tool (`consultar_remuneracao` barrada para o Coordenador) e imposição de limite orçamentário (`MAX_TOOLS`).
+   - **🆕 Bônus C (Triagem Humana na Admissibilidade):** Pausa com supervisão humana na entrada para zonas cinzentas de ambiguidade (C10).
+4. **Resiliência e Tolerância a Falhas:**
+   - Fallback offline automático e transparente com base local de feriados (`feriados_2027.json`) após 3 retentativas com Exponential Backoff, garantindo disponibilidade contínua sem depender da estabilidade de APIs externas.
+5. **Segurança Zero-Trust e Auditoria Estruturada:**
+   - O servidor MCP atua como autoridade final intransponível (o servidor nega com `DENY`, impedindo autoaprovação mesmo se o agente for burlado), gerando logs auditáveis em `saidas/auditoria.jsonl` em total conformidade com a LGPD.
+
+---
+
 ### Tabela Comparativa dos 12 Casos (C1 a C12)
 
 Os 12 cenários de teste foram processados pelo grafo orquestrador, obtendo **100% de conformidade com o comportamento esperado**:
@@ -270,7 +293,7 @@ O script oficial de auditoria e validação automatizada (`conferir.py`) atestou
 
 O relatório detalhado da atividade, contendo as capturas de execução do terminal, saídas do MCP Inspector, fragmentos de log de auditoria e respostas conceituais a todas as perguntas do roteiro, foi compilado e está disponível no repositório no arquivo:
 
-📄 **[`Aula-10-bruno-sampaio.pdf`](Aula-10-bruno-sampaio.pdf)**
+📄 **[`ENTREGA-FINAL-bruno-sampaio.pdf`](ENTREGA-FINAL-bruno-sampaio.pdf)**
 
 *Recomenda-se a leitura do PDF para conferência visual das saídas brutas de terminal emitidas durante os testes de homologação.*
 
