@@ -1,6 +1,6 @@
 # Entrega: Assistente de Gestão de Pessoas
 
-**Aluno(s):** Aluno MBA Multiagentes
+**Aluno(s):** Bruno Cesar Sampaio Ribeiro de Assis | MBA IA e ML | IBMEC
 **Até onde chegou:** ( ) Marco mínimo (Etapa 6)  ( ) Marco completo (Etapa 9)  (X) Etapas 10–11
 **Opcionais e bônus feitos:** (X) 🆕 A  (X) 🆕 B  (X) 🆕 C  ( ) Outro: ______
 

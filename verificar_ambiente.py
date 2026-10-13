@@ -76,16 +76,16 @@ if not (PASTA / ".env").exists():
 load_dotenv(PASTA / ".env")
 provedor = os.getenv("PROVEDOR", "openai").strip().lower()
 print(f"  PROVEDOR={provedor}")
-if provedor == "openai":
+if provedor in ("openai", "zen"):
     chave = os.getenv("OPENAI_API_KEY", "")
-    if chave.startswith("sk-") and len(chave) > 20:
-        ok(f"OPENAI_API_KEY preenchida (termina em ...{chave[-4:]})")
+    if len(chave) > 15:
+        ok(f"OPENAI_API_KEY preenchida ({provedor}, termina em ...{chave[-4:]})")
     else:
         erro("OPENAI_API_KEY vazia ou com formato estranho no .env")
 elif provedor == "ollama":
     ok(f"Ollama em {os.getenv('OLLAMA_BASE_URL', 'http://localhost:11434/v1')}, modelo {os.getenv('OLLAMA_MODEL', 'llama3.1')}")
 else:
-    erro(f"PROVEDOR={provedor!r} não existe. Use openai ou ollama.")
+    erro(f"PROVEDOR={provedor!r} não existe. Use openai, zen ou ollama.")
 token = os.getenv("TOKEN_REGISTRO", "")
 if not token:
     erro("TOKEN_REGISTRO vazio no .env (sem ele, toda gravação será negada a partir da Etapa 9)")

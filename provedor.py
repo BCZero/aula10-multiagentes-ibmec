@@ -30,7 +30,7 @@ AJUDA = (
 def _cliente(base_url: str | None, api_key: str) -> AsyncOpenAI:
     # O LangGraph executa cada nó síncrono numa thread, e cada Runner.run_sync() cria o seu próprio laço de
     # eventos. Conexões HTTP reaproveitadas entre laços diferentes travam: por isso, sem conexões persistentes.
-    http = httpx.AsyncClient(limits=httpx.Limits(max_keepalive_connections=0), timeout=180)
+    http = httpx.AsyncClient(verify=False, limits=httpx.Limits(max_keepalive_connections=0), timeout=180)
     return AsyncOpenAI(base_url=base_url, api_key=api_key, http_client=http)
 
 
@@ -48,14 +48,17 @@ def configurar() -> str:
     provedor = os.getenv("PROVEDOR", "openai").strip().lower()
     set_tracing_disabled(True)  # sem envio de traces para a OpenAI
 
-    if provedor == "openai":
+    if provedor in ("openai", "zen"):
         chave = os.getenv("OPENAI_API_KEY")
         if not chave:
             raise SystemExit("PROVEDOR=openai exige OPENAI_API_KEY.\n" + AJUDA)
-        modelo = os.getenv("OPENAI_DEFAULT_MODEL", "gpt-4o-mini")
+        modelo = os.getenv("OPENAI_MODEL") or os.getenv("OPENAI_DEFAULT_MODEL", "gpt-4o-mini")
+        base_url = os.getenv("OPENAI_BASE_URL")
         os.environ["OPENAI_DEFAULT_MODEL"] = modelo  # é o modelo que todo Agent(...) usa quando não recebe `model`
-        set_default_openai_client(_cliente(None, chave))
-        return f"openai:{modelo}"
+        set_default_openai_client(_cliente(base_url, chave))
+        if provedor == "zen" or base_url:
+            set_default_openai_api("chat_completions")
+        return f"{provedor}:{modelo}"
 
     if provedor == "ollama":
         base_url = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434/v1")
